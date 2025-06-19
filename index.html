@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Dashboard Home</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(180deg, #101624 0%, #23272f 100%);
+      --text-color: #fff;
+      --card-bg: #23272f;
+      --card-text: #fff;
+      --accent1: #4f8cff;
+      --accent2: #38e6b0;
+      --accent3: #b2fefa;
+      --shadow: 0 4px 32px rgba(0,0,0,0.33);
+      --button-bg: linear-gradient(90deg, #4f8cff 0%, #38e6b0 100%);
+      --button-text: #fff;
+      --button-bg-hover: linear-gradient(90deg, #38e6b0 0%, #4f8cff 100%);
+      --button-text-hover: #fff;
+      --link: #b2fefa;
+      --link-hover: #fff;
+      --popup-opacity: 1;
+      --popup-blur: none;
+      --loader-bg: #101624;
+      --loader-bar-bg: #23272f;
+      --loader-bar: linear-gradient(90deg, #4f8cff, #38e6b0);
+    }
+    body.light {
+      --bg-gradient: linear-gradient(180deg, #1e5bbf 0%, #0a3d62 100%);
+      --text-color: #fff;
+      --card-bg: rgba(255,255,255,0.13);
+      --card-text: #fff;
+      --accent1: #b2fefa;
+      --accent2: #4f8cff;
+      --accent3: #38e6b0;
+      --shadow: 0 4px 32px rgba(0,0,0,0.10);
+      --button-bg: linear-gradient(90deg, #b2fefa 0%, #4f8cff 100%);
+      --button-text: #003366;
+      --button-bg-hover: linear-gradient(90deg, #4f8cff 0%, #b2fefa 100%);
+      --button-text-hover: #003366;
+      --link: #b2b9f8;
+      --link-hover: #fff;
+      --popup-opacity: 0.95;
+      --popup-blur: blur(8px);
+      --loader-bg: #1e5bbf;
+      --loader-bar-bg: #b2fefa;
+      --loader-bar: linear-gradient(90deg, #b2fefa, #4f8cff);
+    }
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 90px;
+      right: 32px;
+      z-index: 10003;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: var(--popup-blur);
+    }
+    .theme-toggle:hover {
+      background: var(--accent3);
+      color: var(--accent1);
+    }
+    .header {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      padding: 24px 0 0 0;
+      font-size: 1rem;
+      font-weight: 500;
+      opacity: 0.95;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    .header span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1rem;
+    }
+    .header img {
+      height: 18px;
+      vertical-align: middle;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      position: relative;
+      z-index: 1;
+    }
+    .headline {
+      font-size: 3rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+    .headline .hover-target {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+    .headline .hover-target:hover {
+      color: var(--accent1);
+    }
+    .subheadline {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 32px;
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    .cta {
+      background: var(--button-bg);
+      color: var(--button-text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      padding: 16px 36px;
+      margin-bottom: 18px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.2s, color 0.2s;
+    }
+    .cta:hover {
+      background: var(--button-bg-hover);
+      color: var(--button-text-hover);
+    }
+    .see-link {
+      color: var(--link);
+      text-decoration: underline;
+      font-size: 1rem;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: color 0.2s;
+    }
+    .see-link:hover {
+      color: var(--link-hover);
+    }
+    /* Loader */
+    .loader-container {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--loader-bg);
+      z-index: 10000;
+      transition: opacity 0.5s;
+    }
+    .loader-bar-bg {
+      width: 320px;
+      height: 32px;
+      background: var(--loader-bar-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .loader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--loader-bar);
+      border-radius: 16px 0 0 16px;
+      transition: width 0.2s;
+    }
+    /* Popups */
+    .popups {
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 10;
+      width: 700px;
+      height: 320px;
+      display: none;
+    }
+    .popup-card {
+      position: absolute;
+      background: var(--card-bg);
+      color: var(--card-text);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 24px 20px 18px 20px;
+      min-width: 180px;
+      min-height: 100px;
+      opacity: var(--popup-opacity);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: transform 0.2s, box-shadow 0.2s;
+      backdrop-filter: var(--popup-blur);
+    }
+    .popup-card svg {
+      margin-bottom: 10px;
+    }
+    /* Unique positions for each popup set */
+    .popups-reports .popup1 { left: 0px; top: 120px; width: 220px; }
+    .popups-reports .popup2 { left: 240px; top: 0px; width: 260px; }
+    .popups-reports .popup3 { left: 520px; top: 140px; width: 200px; }
+    .popups-forecasts .popup1 { left: 60px; top: 40px; width: 200px; }
+    .popups-forecasts .popup2 { left: 350px; top: 120px; width: 240px; }
+    .popups-forecasts .popup3 { left: 500px; top: 30px; width: 180px; }
+    .popups-dashboards .popup1 { left: 120px; top: 160px; width: 200px; }
+    .popups-dashboards .popup2 { left: 400px; top: 40px; width: 220px; }
+    .popups-dashboards .popup3 { left: 40px; top: 30px; width: 180px; }
+    .popups-consolidations .popup1 { left: 200px; top: 20px; width: 200px; }
+    .popups-consolidations .popup2 { left: 0px; top: 100px; width: 220px; }
+    .popups-consolidations .popup3 { left: 480px; top: 180px; width: 200px; }
+    /* Faded background charts */
+    .bg-chart {
+      position: absolute;
+      opacity: 0.13;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bg1 { left: 8%; top: 18%; width: 180px; }
+    .bg2 { right: 10%; top: 22%; width: 160px; }
+    .bg3 { left: 30%; bottom: 10%; width: 220px; }
+    .bg4 { right: 20%; bottom: 12%; width: 180px; }
+    /* Light mode overlays for depth */
+    body.light .bg-chart {
+      opacity: 0.18;
+      filter: blur(2px);
+    }
+    @media (max-width: 900px) {
+      .main { min-height: 90vh; }
+      .popups { width: 98vw; }
+      .popup1, .popup2, .popup3 { left: unset; right: unset; top: unset; width: 90vw; position: static; margin: 10px auto; }
+      .popups { flex-direction: column; align-items: center; }
+    }
+    .carousel-switch {
+      background: linear-gradient(90deg, #ff7eb3 0%, #65e4ff 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      padding: 16px 36px;
+      margin-bottom: 18px;
+      margin-top: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      display: block;
+    }
+    .carousel-switch:hover {
+      background: linear-gradient(90deg, #65e4ff 0%, #ff7eb3 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+    }
+    .navbar {
+      width: 100vw;
+      background: rgba(30, 40, 60, 0.97);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 1.1rem 0 1.1rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10002;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .nav-link {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      transition: background 0.18s, color 0.18s;
+    }
+    .nav-link:hover {
+      background: var(--accent1);
+      color: #23272f;
+    }
+    body { padding-top: 70px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="testimonials.html" class="nav-link">Testimonials</a>
+    <a href="bss-oss.html" class="nav-link">BSS/OSS</a>
+    <a href="carousel.html" class="nav-link">Carousel</a>
+    <a href="ripple.html" class="nav-link">Ripple</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">🌙 Dark</button>
+  <div class="loader-container" id="loaderContainer">
+    <div class="loader-bar-bg">
+      <div class="loader-bar" id="loaderBar"></div>
+    </div>
+  </div>
+  <div class="header">
+    <span>★ 4.8 rating on <img src="https://cdn.capterra.com/favicon.ico" alt="Capterra">Capterra</span>
+    <span>★ 4.8 rating on <img src="https://www.g2.com/favicon.ico" alt="G2">G2</span>
+    <span>★ 350+ reviews on <span style="color:var(--accent1);">xero</span></span>
+    <span>★ 550+ reviews on <img src="https://quickbooks.intuit.com/favicon.ico" alt="QuickBooks" style="height:16px;">QuickBooks</span>
+  </div>
+  <div class="main">
+    <div class="headline">
+      <span class="hover-target" data-popup="reports">Create reports</span>, 
+      <span class="hover-target" data-popup="forecasts">forecasts</span>,<br>
+      <span class="hover-target" data-popup="dashboards">dashboards</span> & 
+      <span class="hover-target" data-popup="consolidations">consolidations</span>
+    </div>
+    <div class="subheadline">✨ Now with AI-insights</div>
+    <button class="cta">Start 14-day free trial →</button>
+    <div><span class="see-link">See what we do</span></div>
+    <!-- Popups for each word -->
+    <div class="popups popups-reports" id="popups-reports">
+      <div class="popup-card popup1">
+        <strong>Expenses<br>$56.2K</strong>
+        <svg width="120" height="60"><circle cx="30" cy="30" r="25" fill="#e0f7fa" stroke="#4f8cff" stroke-width="8" /><circle cx="30" cy="30" r="25" fill="none" stroke="#38e6b0" stroke-width="8" stroke-dasharray="80 80" stroke-dashoffset="20" /></svg>
+        <div style="font-size:0.9em; color:var(--accent1);">Insurance, Wages, Rent, Legal, Other</div>
+      </div>
+      <div class="popup-card popup2">
+        <strong>Total income <span style="color:#e74c3c; font-size:0.9em;">▼ 36.5%</span></strong>
+        <div style="font-size:1.1em; margin-bottom:4px;">$426.8K <span style="color:#aaa; font-size:0.9em;">$672.5K last year</span></div>
+        <svg width="180" height="60">
+          <rect x="10" y="30" width="10" height="20" fill="#4f8cff"/>
+          <rect x="30" y="20" width="10" height="30" fill="#4f8cff"/>
+          <rect x="50" y="10" width="10" height="40" fill="#38e6b0"/>
+          <rect x="70" y="25" width="10" height="25" fill="#4f8cff"/>
+          <rect x="90" y="15" width="10" height="35" fill="#38e6b0"/>
+          <rect x="110" y="30" width="10" height="20" fill="#4f8cff"/>
+          <rect x="130" y="20" width="10" height="30" fill="#4f8cff"/>
+          <rect x="150" y="10" width="10" height="40" fill="#38e6b0"/>
+        </svg>
+      </div>
+      <div class="popup-card popup3">
+        <strong>Cash <span style="color:#27ae60; font-size:0.9em;">▲ 202.9%</span></strong>
+        <div style="font-size:2em; margin-bottom:4px;">$288,721</div>
+        <div style="font-size:0.9em; color:var(--accent1);">prior last year<br>$95,319</div>
+      </div>
+    </div>
+    <div class="popups popups-forecasts" id="popups-forecasts">
+      <div class="popup-card popup1">
+        <strong>Forecast Accuracy<br>92%</strong>
+        <svg width="120" height="60"><rect x="20" y="20" width="80" height="20" fill="#b2fefa"/><rect x="20" y="20" width="60" height="20" fill="#4f8cff"/></svg>
+        <div style="font-size:0.9em; color:var(--accent1);">12-month trend</div>
+      </div>
+      <div class="popup-card popup2">
+        <strong>Revenue Forecast</strong>
+        <div style="font-size:1.1em; margin-bottom:4px;">$1.2M <span style="color:#27ae60; font-size:0.9em;">▲ 8.2%</span></div>
+        <svg width="180" height="60">
+          <polyline points="0,50 30,40 60,30 90,20 120,25 150,10 180,15" fill="none" stroke="#38e6b0" stroke-width="4"/>
+        </svg>
+      </div>
+      <div class="popup-card popup3">
+        <strong>Cost Forecast</strong>
+        <div style="font-size:2em; margin-bottom:4px;">$800,000</div>
+        <div style="font-size:0.9em; color:var(--accent1);">next year</div>
+      </div>
+    </div>
+    <div class="popups popups-dashboards" id="popups-dashboards">
+      <div class="popup-card popup1">
+        <strong>Active Users<br>1,250</strong>
+        <svg width="120" height="60"><rect x="20" y="40" width="20" height="10" fill="#4f8cff"/><rect x="50" y="30" width="20" height="20" fill="#38e6b0"/><rect x="80" y="20" width="20" height="30" fill="#b2fefa"/></svg>
+        <div style="font-size:0.9em; color:var(--accent1);">Last 7 days</div>
+      </div>
+      <div class="popup-card popup2">
+        <strong>Engagement</strong>
+        <div style="font-size:1.1em; margin-bottom:4px;">78% <span style="color:#27ae60; font-size:0.9em;">▲ 3.1%</span></div>
+        <svg width="180" height="60">
+          <rect x="10" y="40" width="20" height="10" fill="#4f8cff"/>
+          <rect x="40" y="30" width="20" height="20" fill="#38e6b0"/>
+          <rect x="70" y="20" width="20" height="30" fill="#b2fefa"/>
+        </svg>
+      </div>
+      <div class="popup-card popup3">
+        <strong>Conversion Rate</strong>
+        <div style="font-size:2em; margin-bottom:4px;">5.6%</div>
+        <div style="font-size:0.9em; color:var(--accent1);">this month</div>
+      </div>
+    </div>
+    <div class="popups popups-consolidations" id="popups-consolidations">
+      <div class="popup-card popup1">
+        <strong>Entities<br>5</strong>
+        <svg width="120" height="60"><circle cx="30" cy="30" r="25" fill="#b2fefa"/><circle cx="90" cy="30" r="25" fill="#4f8cff"/></svg>
+        <div style="font-size:0.9em; color:var(--accent1);">Merged</div>
+      </div>
+      <div class="popup-card popup2">
+        <strong>Consolidated Revenue</strong>
+        <div style="font-size:1.1em; margin-bottom:4px;">$2.5M</div>
+        <svg width="180" height="60">
+          <rect x="10" y="30" width="40" height="20" fill="#4f8cff"/>
+          <rect x="60" y="10" width="40" height="40" fill="#38e6b0"/>
+        </svg>
+      </div>
+      <div class="popup-card popup3">
+        <strong>Net Profit</strong>
+        <div style="font-size:2em; margin-bottom:4px;">$650,000</div>
+        <div style="font-size:0.9em; color:var(--accent1);">after tax</div>
+      </div>
+    </div>
+    <!-- Faded background charts -->
+    <svg class="bg-chart bg1" viewBox="0 0 100 60"><rect x="10" y="30" width="10" height="20" fill="#fff"/><rect x="30" y="20" width="10" height="30" fill="#fff"/><rect x="50" y="10" width="10" height="40" fill="#fff"/></svg>
+    <svg class="bg-chart bg2" viewBox="0 0 100 60"><circle cx="50" cy="30" r="25" fill="#fff"/></svg>
+    <svg class="bg-chart bg3" viewBox="0 0 100 60"><rect x="20" y="20" width="60" height="20" fill="#fff"/></svg>
+    <svg class="bg-chart bg4" viewBox="0 0 100 60"><rect x="40" y="10" width="20" height="40" fill="#fff"/></svg>
+  </div>
+  <script>
+    // Loader logic
+    let progress = 0;
+    const loaderBar = document.getElementById('loaderBar');
+    const loaderContainer = document.getElementById('loaderContainer');
+    function fillLoader() {
+      if (progress < 100) {
+        progress += Math.random() * 5 + 1;
+        if (progress > 100) progress = 100;
+        loaderBar.style.width = progress + '%';
+        setTimeout(fillLoader, 30);
+      } else {
+        loaderContainer.style.opacity = 0;
+        setTimeout(() => {
+          loaderContainer.style.display = 'none';
+        }, 500);
+      }
+    }
+    window.addEventListener('DOMContentLoaded', fillLoader);
+
+    // Theme toggle logic
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(isLight) {
+      if (isLight) {
+        document.body.classList.add('light');
+        themeToggle.innerHTML = '☀️ Light';
+      } else {
+        document.body.classList.remove('light');
+        themeToggle.innerHTML = '🌙 Dark';
+      }
+    }
+    let isLight = false;
+    themeToggle.addEventListener('click', () => {
+      isLight = !isLight;
+      setTheme(isLight);
+    });
+    setTheme(isLight);
+
+    // Show popups on hover for each word
+    const hoverTargets = document.querySelectorAll('.hover-target');
+    const popupsIds = ['reports', 'forecasts', 'dashboards', 'consolidations'];
+    const popupsMap = {};
+    popupsIds.forEach(id => {
+      popupsMap[id] = document.getElementById('popups-' + id);
+    });
+    let currentPopup = null;
+    hoverTargets.forEach(target => {
+      const popupId = target.getAttribute('data-popup');
+      const popup = popupsMap[popupId];
+      target.addEventListener('mouseenter', () => {
+        Object.values(popupsMap).forEach(p => p.style.display = 'none');
+        popup.style.display = 'block';
+        currentPopup = popup;
+      });
+      target.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          if (!popup.matches(':hover')) {
+            popup.style.display = 'none';
+            currentPopup = null;
+          }
+        }, 100);
+      });
+      popup.addEventListener('mouseenter', () => {
+        popup.style.display = 'block';
+        currentPopup = popup;
+      });
+      popup.addEventListener('mouseleave', () => {
+        popup.style.display = 'none';
+        currentPopup = null;
+      });
+    });
+  </script>
+</body>
+</html> 

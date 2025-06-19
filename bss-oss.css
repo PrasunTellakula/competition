@@ -1,0 +1,190 @@
+html,
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: #97a8b0;
+}
+
+.bss-oss-container {
+  width: 100vw;
+  min-height: 100vh;
+  background: #97a8b0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 3.5rem;
+}
+.bss-oss-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #f5f7fa;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.bss-oss-tabs {
+  display: flex;
+  background: #8fa1ab;
+  border-radius: 18px;
+  padding: 0.7rem 1.2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
+  overflow-x: auto;
+  gap: 0;
+}
+.bss-oss-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: #aab8c2;
+  color: #222;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 0;
+  padding: 0.7rem 1.7rem 0.7rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.3s, padding 0s, min-width 0s;
+  border: none;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+  box-shadow: none;
+}
+.bss-oss-tab:first-child {
+  border-radius: 12px 0 0 12px;
+}
+.bss-oss-tab:last-child {
+  border-radius: 0 12px 12px 0;
+}
+.bss-oss-tab.active {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  z-index: 2;
+}
+.bss-oss-tab.billing.active { border-color: #ffd6db; background: #ffd6db; }
+.bss-oss-tab.charging.active { border-color: #ffe9b3; background: #ffe9b3; }
+.bss-oss-tab.catalog.active { border-color: #eaffc7; background: #eaffc7; }
+.bss-oss-tab.events.active { border-color: #b3f0ff; background: #b3f0ff; }
+.bss-oss-tab .tab-icon {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.skeleton-tab {
+  position: relative;
+  overflow: hidden;
+  background: #e3e9ed !important;
+  color: #b3b3b3 !important;
+  pointer-events: none;
+  transform: none;
+  padding-left: 3.5rem !important;
+  padding-right: 3.5rem !important;
+  min-width: 180px;
+  z-index: 3;
+}
+.skeleton-tab::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -80px; height: 100%; width: 80px;
+  background: linear-gradient(90deg, transparent, #f5f7fa 60%, transparent);
+  animation: shimmer 1.2s infinite linear;
+  z-index: 2;
+}
+@keyframes shimmer {
+  0% { left: -80px; }
+  100% { left: 100%; }
+}
+.bss-oss-tab-content {
+  width: 80vw;
+  max-width: 900px;
+  background: #b8c7d1;
+  border-radius: 24px;
+  box-shadow: 0 4px 32px 0 rgba(80,80,180,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+.bss-oss-tab-content .tab-content-left {
+  flex: 1.2;
+}
+.bss-oss-tab-content .tab-content-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1.1rem;
+}
+.bss-oss-tab-content .tab-content-desc {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+.bss-oss-tab-content .tab-content-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bss-oss-tab-content .tab-content-img {
+  width: 260px;
+  height: 180px;
+  background: #e3e9ed;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #b3b3b3;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+@media (max-width: 900px) {
+  .bss-oss-tab-content {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    gap: 1.2rem;
+  }
+  .bss-oss-tab-content .tab-content-img {
+    width: 100%;
+    height: 120px;
+    font-size: 1.5rem;
+  }
+}
+
+.navbar {
+  width: 100vw;
+  background: rgba(30, 40, 60, 0.97);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 1.1rem 0 1.1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10002;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+.nav-link {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  transition: background 0.18s, color 0.18s;
+}
+.nav-link:hover {
+  background: #ffd6db;
+  color: #23272f;
+}
+body { padding-top: 70px; } 
