@@ -2,26 +2,26 @@
 const products = [
     {
       label: 'NEW',
-      defaultImg: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80', // Green perfume bottle in nature
-      lifestyleImg: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=600&q=80', // Perfume bottle closeup
+      defaultImg: 'ms.jpg', // Green perfume bottle in nature
+      lifestyleImg: 'ms1.jpg', // Perfume bottle closeup
       name: 'French Essence Luxury Perfume'
     },
     {
       label: 'NEW',
-      defaultImg: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80', // Serum bottle with orange background
-      lifestyleImg: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80', // Serum bottle on white
+      defaultImg: 'vc.jpg', // Serum bottle with orange background
+      lifestyleImg: 'vc1.jpg', // Serum bottle on white
       name: 'Pilgrim Vitamin C Face Serum'
     },
     {
       label: 'NEW',
-      defaultImg: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80', // Skincare bottles
-      lifestyleImg: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80', // Cream with fruit
+      defaultImg: 'perfume.jpg', // Skincare bottles
+      lifestyleImg: 'perfume1.jpg', // Cream with fruit
       name: 'Moisturizing Serum'
     },
     {
       label: 'NEW',
-      defaultImg: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=600&q=80', // Face cream jar
-      lifestyleImg: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80', // Cream with fruit
+      defaultImg: 'vitamin-c.jpg', // Face cream jar
+      lifestyleImg: 'vitamin-c1.jpg', // Cream with fruit
       name: 'Vitamin C Cream'
     }
   ];
